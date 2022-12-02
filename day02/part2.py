@@ -27,7 +27,7 @@ def score(x, y):
 
 total = 0
 for line in input:
-    [them, me] = line.split('\n')[0].split(' ')
+    [them, me] = line.rsplit()
     total += score(them, me)
 
 print(total)
