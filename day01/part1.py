@@ -2,12 +2,12 @@
 
 input = open("input.txt").readlines()
 
-max_calories = None
+max_calories = 0
 accum_calories = 0
 
 for line in input:
     if line == "\n":
-        if max_calories == None or accum_calories > max_calories:
+        if accum_calories > max_calories:
             max_calories = accum_calories
         accum_calories = 0
         continue
@@ -15,7 +15,7 @@ for line in input:
     calories = int(line)
     accum_calories += calories
 
-if max_calories == None or accum_calories > max_calories:
+if accum_calories > max_calories:
     max_calories = accum_calories
 
 print(max_calories)
