@@ -2,27 +2,18 @@
 
 read_sample = 0
 filename = ["input.txt", "sample.txt"][read_sample]
-input = open(filename).readlines()
+lines = open(filename).read().strip().split('\n')
+
+def prio(x):
+    if x.islower():
+        return 1 + ord(x) - ord('a')
+    return 27 + ord(x) - ord('A')
 
 total = 0
-g3 = []
 
-for line in input:
-    t = line.rsplit()[0]
-    g3.append(t)
-    if len(g3) != 3:
-        continue
-
-    x, y, z = set(g3[0][:]), set(g3[1][:]), set(g3[2][:])
-    for v in x:
-        if v in y:
-            if v in z:
-                if v.islower():
-                    prio = 1 + ord(v) - ord('a')
-                else:
-                    prio = 27 + ord(v) - ord('A')
-                total += prio
-
-    g3 = []
+for i in range(0, len(lines), 3):
+    g3 = lines[i:i+3]
+    x, = set(g3[0]) & set(g3[1]) & set(g3[2])
+    total += prio(x)
 
 print(total)
