@@ -9,13 +9,15 @@ lines = open(filename).read().split('\n')
 def flatten(x): return [item for sublist in x for item in sublist]
 
 if read_sample == 1:
-    stacks = [[] for _ in range(3)]
     max_height = 3
+    container_count = 3
 else:
-    stacks = [[] for _ in range(9)]
     max_height = 8
+    container_count = 9
+stacks = [[] for _ in range(container_count)]
 
 for line in lines[:max_height]:
+    # "[X] " takes 4 characters
     for i in range(0, len(line), 4):
         container = re.findall("\[(.)\]", line[i:i+4])
         if len(container) != 0:
