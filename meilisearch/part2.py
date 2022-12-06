@@ -91,20 +91,6 @@ class Node:
             bfs.append((node, node.right))
         # no visited bc tree
 
-    def walk(self):
-        bfs = [(0, self.left), (0, self.right)]
-        while len(bfs) != 0:
-            stops, node = bfs[0]; bfs = bfs[1:]
-            if node == None: continue
-
-            d = node.parent.data if node.parent != None else "?"
-            idx = f"[{node.index}] " if node.index != -1 else ""
-            print("-"*stops + f"({d}) {idx}{node.data}")
-
-            bfs.append((stops+1,node.left))
-            bfs.append((stops+1,node.right))
-        # no visited bc tree
-
     def walk_and_search(self):
         bfs = [(1, self.left), (1, self.right)]
         visited = set()
@@ -122,33 +108,7 @@ class Node:
 
             node.index = -1 # disable node
             total_stops += stops
-            # bfs = [(1, node.left), (1, node.right), (1, node.parent)]
-            bfs = [(0, node)] # same effect as above commented line
-            visited = set()
-        # yes visited bc tree but we're visting parents
-        return total_stops
-
-    def walk_and_print_path(self):
-        bfs = [([], self.left), ([], self.right)]
-        visited = set()
-        total_stops = 0
-        while len(bfs) != 0:
-            path, node = bfs[0]; bfs = bfs[1:]
-            if node == None or node in visited: continue
-            visited.add(node)
-
-            new_path = list(path)
-            new_path.append(node.data)
-            if node.index == -1:
-                bfs.append((new_path.copy(), node.left))
-                bfs.append((new_path.copy(), node.right))
-                bfs.append((new_path.copy(), node.parent))
-                continue
-
-            total_stops += len(new_path)
-            print(f"Found: {kids[node.index]} in {len(new_path)}/{total_stops} - path = {path}")
-            node.index = -1 # disable node
-            bfs = [([], node.left), ([], node.right), ([], node.parent)]
+            bfs = [(0, node)]
             visited = set()
         # yes visited bc tree but we're visting parents
         return total_stops
@@ -161,6 +121,5 @@ for i, path in enumerate(paths):
 radix_tree.index = -1 # disable root node
 radix_tree.set_parents()
 
-# total_stops = radix_tree.walk_and_search_path()
 total_stops = radix_tree.walk_and_search()
 print("Total:", total_stops)
