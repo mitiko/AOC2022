@@ -28,7 +28,6 @@ class Node:
         self.index = index
     
     def insert(self, data, index):
-        # print(f"Inserting {data} in {self.data}, idx={self.index}")
         l = lcp(self.data, data)
         radix = data[:l]
         node = Node(data[l:], index=index)
@@ -104,40 +103,20 @@ class Node:
 
 
     
-    # def walk(self, term=False):
     def walk(self):
-        bfs = [(0, self.left), (0, self.right)]
-        # bfs = [self.left, self.right]
+        bfs = [self.left, self.right]
         while len(bfs) != 0:
-            # depth, node = bfs.pop() # for dfs
-            depth, node = bfs[0]; bfs = bfs[1:]
-            # node = bfs[0]; bfs = bfs[1:]
-            app = "-"*depth
-            if node != None:
-                # print(node, node.left, node.right)
-                # dd = node.data if len(node.data) > 0 else "x"
-                # print(f"{node.index :>2} {app}{dd}")
-                # if node.index != -1 and term == True:
-                if node.index != -1:
-                    return node.index
-                bfs.append((depth+1, node.left))
-                bfs.append((depth+1, node.right))
-                # bfs.append(node.left)
-                # bfs.append(node.right)
+            node = bfs[0]; bfs = bfs[1:]
+            if node == None: continue
+            if node.index != -1:
+                return node.index
+            bfs.append(node.left)
+            bfs.append(node.right)
         # no visited bc tree
-
-# radix_tree = Node(data="root", left=Node("l", left=Node("ll")), right=Node("r", left=Node("rl", right=Node("rlr", index=2))))
 
 radix_tree = Node("", index=len(paths))
 for i, path in enumerate(paths):
-    # print()
-    # print(paths)
-    # print(f"Adding '{path}'")
     radix_tree.insert(path, i)
-    # radix_tree.walk()
-    # radix_tree.walk()
 
 idx = radix_tree.walk()
-if idx != None:
-    print(idx, kids[idx])
-
+print(idx, kids[idx])
