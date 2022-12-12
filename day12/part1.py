@@ -5,9 +5,8 @@ filename = ["input.txt", "sample.txt"][read_sample]
 lines = open(filename).read().strip().split('\n')
 
 class Node():
-    def __init__(self, level, coord):
+    def __init__(self, level):
         self.level = level
-        self.coord = coord
         self.adj = []
     
     def add(self, node):
@@ -15,11 +14,12 @@ class Node():
 
 y_len = len(lines)
 x_len = len(lines[0])
+
 grid = [[None] * x_len for _ in range(y_len)]
 source, target = None, None
+
 Q = set()
-count = y_len * x_len
-max_distance = count + 100
+max_distance = (y_len * x_len) + 100
 dist, prev = {}, {}
 
 # connect graph
@@ -31,7 +31,7 @@ for y, line in enumerate(lines):
         elif char == 'E':
             level = ord('z') - ord('a')
 
-        node = Node(level, (x, y))
+        node = Node(level)
         grid[y][x] = node
 
         if y != 0:
